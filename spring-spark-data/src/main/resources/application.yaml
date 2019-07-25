@@ -1,0 +1,11 @@
+spark:
+  master: local
+  app:
+    name: Spring Spark Word Count Application
+#  spark.home=%SPARK_HOME%
+
+#  server.port=3000
+
+spring:
+  main:
+    lazy-initialization: false
