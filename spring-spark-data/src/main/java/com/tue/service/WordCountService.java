@@ -25,7 +25,6 @@ public class WordCountService {
     public String handleES(String query) {
         String q = String.format("?q=name:%s", query);
         JavaPairRDD<String, Map<String, Object>> esRDD = JavaEsSpark.esRDD(sc, "vnf/companies", q);
-
         return String.format("{\"count\": \"%s\"}", esRDD.count());
     }
 

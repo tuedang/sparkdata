@@ -9,3 +9,8 @@ spark:
 spring:
   main:
     lazy-initialization: false
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: ERROR
