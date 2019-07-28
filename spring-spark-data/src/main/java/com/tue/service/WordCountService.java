@@ -1,9 +1,8 @@
 package com.tue.service;
 
-import org.apache.spark.api.java.JavaPairRDD;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class WordCountService {
 
     @Autowired
@@ -21,11 +21,4 @@ public class WordCountService {
         Map<String, Long> wordCounts = words.countByValue();
         return wordCounts;
     }
-
-    public String handleES(String query) {
-        String q = String.format("?q=name:%s", query);
-        JavaPairRDD<String, Map<String, Object>> esRDD = JavaEsSpark.esRDD(sc, "vnf/companies", q);
-        return String.format("{\"count\": \"%s\"}", esRDD.count());
-    }
-
 }

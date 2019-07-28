@@ -23,6 +23,9 @@ public class SparkConfig {
         conf.set("es.nodes", "tnode.org");
         conf.set("spark.es.net.ssl", "false");
         conf.set("es.nodes.wan.only", "true");
+
+        conf.set("spark.driver.memory", "4g");
+        conf.set("spark.executor.memory", "4g");
         return conf;
     }
 

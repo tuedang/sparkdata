@@ -1,5 +1,5 @@
 spark:
-  master: local
+  master: local[*]
   app:
     name: Spring Spark Word Count Application
 #  spark.home=%SPARK_HOME%
@@ -12,5 +12,12 @@ spring:
 
 logging:
   level:
-    root: WARN
+    root: INFO
     org.springframework.web: ERROR
+    org:
+      apache:
+        spark:
+          executor: ERROR
+      elasticsearch:
+        hadoop:
+          rest: ERROR

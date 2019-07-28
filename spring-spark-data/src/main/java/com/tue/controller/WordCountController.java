@@ -1,5 +1,6 @@
 package com.tue.controller;
 
+import com.tue.service.ElasticsearchService;
 import com.tue.service.WordCountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class WordCountController {
     @Autowired
     private WordCountService service;
 
+    @Autowired
+    private ElasticsearchService elasticsearchService;
+
     @RequestMapping(method = RequestMethod.POST, path = "/wordcount")
     public Map<String, Long> count(@RequestParam(required = false) String words) {
         List<String> wordList = Arrays.asList(words.split("\\|"));
@@ -25,7 +29,7 @@ public class WordCountController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/es")
     public Object es(@RequestParam(required = false) String query) throws Exception {
-        return service.handleES(query);
+        return elasticsearchService.handleES(query);
     }
 
 }
