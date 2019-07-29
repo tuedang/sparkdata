@@ -7,11 +7,9 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.elasticsearch.hadoop.rest.query.BoolQueryBuilder;
 import org.elasticsearch.hadoop.rest.query.QueryBuilder;
-import org.elasticsearch.hadoop.rest.query.QueryStringQueryBuilder;
-import org.elasticsearch.hadoop.rest.query.TermQueryBuilder;
 import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +25,28 @@ public class ElasticsearchService {
     private SparkSession sparkSession;
 
     public String handleES(String query) {
-        Dataset<Company> companyDataset = queryForCompany(sc, "vnf/companies", queryBuilder());
+        Dataset<Company> companyDataset = queryForCompany(sc, "vnf/companies",
+                CompanyQuery.builder()
+                        .withQuery("website:*")
+                        .withTerm("name", "tnhh")
+                        .build());
         companyDataset.show();
 
-        Dataset<Company> companyDatasetVtown = queryForCompany(sc, "vtown*/companies", queryBuilderVtown());
+        Dataset<Company> companyDatasetVtown = queryForCompany(sc, "vtown*/companies",
+                CompanyQuery.builder()
+                        .withQuery("website:*")
+                        .build());
         companyDatasetVtown.show();
 
-        return String.format("{\"count\": \"%s-%s\"}", companyDataset.count(), companyDatasetVtown.count());
+        Dataset<Row> companyJoined = companyDataset.join(companyDatasetVtown,
+                companyDataset.col("website").equalTo(companyDatasetVtown.col("website")));
+        companyJoined
+                .select(companyDataset.col("name"),
+                        companyDatasetVtown.col("name"),
+                        companyDataset.col("website"))
+                .show(false);
+
+        return String.format("{\"count\": \"%s-%s => %s\"}", companyDataset.count(), companyDatasetVtown.count(), companyJoined.count());
     }
 
     private Dataset<Company> queryForCompany(JavaSparkContext javaSparkContext, String resource, QueryBuilder queryBuilder) {
@@ -41,26 +54,5 @@ public class ElasticsearchService {
                 .mapValues(objectMap -> OBJECT_MAPPER.readValue(objectMap, Company.class));
         JavaRDD<Company> companyRDD = esCompanyRdd.map(x -> x._2);
         return sparkSession.createDataset(companyRDD.rdd(), Encoders.bean(Company.class));
-    }
-
-    public QueryBuilder queryBuilder() {
-        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.filter(new TermQueryBuilder()
-                .field("name")
-                .term("tnhh"));
-        boolQueryBuilder.filter(new QueryStringQueryBuilder()
-                .query("website:*"));
-
-        log.info("QUERY: " + boolQueryBuilder);
-        return boolQueryBuilder;
-    }
-
-    public QueryBuilder queryBuilderVtown() {
-        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.filter(new QueryStringQueryBuilder()
-                .query("website:*"));
-
-        log.info("QUERY: " + boolQueryBuilder);
-        return boolQueryBuilder;
     }
 }
