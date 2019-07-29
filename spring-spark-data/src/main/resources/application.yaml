@@ -8,16 +8,11 @@ spark:
 
 spring:
   main:
-    lazy-initialization: false
+    lazy-initialization: true
 
 logging:
   level:
     root: INFO
     org.springframework.web: ERROR
-    org:
-      apache:
-        spark:
-          executor: ERROR
-      elasticsearch:
-        hadoop:
-          rest: ERROR
+    org.apache.spark.executor: ERROR
+    org.elasticsearch.hadoop.rest: ERROR

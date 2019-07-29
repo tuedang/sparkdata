@@ -2,6 +2,7 @@ package com.tue.config;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,11 @@ public class SparkConfig {
     @Bean
     public JavaSparkContext sc() {
         return new JavaSparkContext(conf());
+    }
+
+    @Bean
+    public SparkSession sparkSession(JavaSparkContext sc) {
+        return new SparkSession(sc.sc());
     }
 
 }
