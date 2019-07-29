@@ -13,6 +13,8 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.web: ERROR
+    org.apache.spark: WARN
     org.apache.spark.executor: ERROR
     org.elasticsearch.hadoop.rest: ERROR
+    org.spark_project.jetty.server: WARN
+    org.springframework.web: ERROR

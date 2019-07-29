@@ -14,6 +14,7 @@ public class Company {
     private String name;
     @JsonProperty("tax_id")
     private String taxId;
+    private String website;
     private Address address;
 
     @Getter
