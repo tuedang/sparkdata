@@ -1,5 +1,6 @@
 package com.tue.service;
 
+import com.tue.domain.similarity.StringSimilarity;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,5 +19,17 @@ public class ElasticsearchServiceApplicationTest {
     public void handleES() {
         String output = elasticsearchService.handleES("tax*");
         log.info(output);
+    }
+
+    @Test
+    public void joinCondition() {
+        elasticsearchService.joinCondition();
+    }
+
+    @Test
+    public void thresHold() {
+        String a1 = "76D Năm Châu - Phường 11 - Quận Tân Bình - TP Hồ Chí Minh";
+        String a2 = "144/4 Âu Cơ, Phường 9, Quận Tân Bình, TP. Hồ Chí Minh";
+        System.out.println(StringSimilarity.isSimilarAddress(a1, a2));
     }
 }

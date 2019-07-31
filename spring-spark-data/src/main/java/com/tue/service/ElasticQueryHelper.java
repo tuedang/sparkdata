@@ -25,4 +25,9 @@ public final class ElasticQueryHelper {
                 .mapValues(objectMap -> OBJECT_MAPPER.readValue(objectMap, clazz));
         return esRdd.map(x -> x._2);
     }
+
+    public static <T> void showData(JavaRDD<T> javaRDD, SparkSession sparkSession, Class<T> clazz) {
+        sparkSession.createDataset(javaRDD.rdd(), Encoders.bean(clazz))
+                .show(50, false);
+    }
 }
