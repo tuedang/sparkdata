@@ -1,12 +1,14 @@
 package com.tue.spark.address;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
+@ToString
 public class AddressComponent {
     private String country;
     private String province;
@@ -14,5 +16,6 @@ public class AddressComponent {
     private String ward;
 
     private String street;
-    private String home;
+
+    private boolean confident;
 }

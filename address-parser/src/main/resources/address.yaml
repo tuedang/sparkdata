@@ -1,0 +1,13 @@
+address:
+  name:
+    countries: [Việt Nam, Viet Nam, VietNam, vn]
+    provinces:
+      Đà Nẵng: [danang, da nang]
+      Hồ Chí Minh: [hcm, hochiminh, TPHCM, TP.HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP Hồ Chí Minh]
+      Hà Nội: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
+  keyword:
+    ward: [Phường, Phuong, ward, Commune]
+    province: [Tỉnh, tinh, Thành Phố, Province]
+    district: [Quận, quan, District]
+    street: [Street, Đường, duong]
+
