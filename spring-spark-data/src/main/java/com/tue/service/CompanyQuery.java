@@ -25,9 +25,9 @@ public final class CompanyQuery {
         return this;
     }
 
-    public CompanyQuery withQuery(String queryString) {
+    public CompanyQuery withQuery(String field, String queryString) {
         boolQueryBuilder.filter(new QueryStringQueryBuilder()
-                .query(queryString));
+                .query(field + ":" + queryString));
         return this;
     }
 

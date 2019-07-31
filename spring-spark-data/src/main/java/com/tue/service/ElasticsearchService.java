@@ -19,14 +19,15 @@ public class ElasticsearchService {
     public String handleES(String query) {
         Dataset<Company> companyDataset = ElasticQueryHelper.queryForDataSet(sc, sparkSession, "vnf/companies",
                 CompanyQuery.builder()
-                        .withQuery("website:*")
-                        .withTerm("name", "tnhh")
+                        .withQuery("website", "*")
+                        .withTerm("name", "global")
                         .build(), Company.class);
         companyDataset.show();
 
         Dataset<Company> companyDatasetVtown = ElasticQueryHelper.queryForDataSet(sc, sparkSession, "vtown*/companies",
                 CompanyQuery.builder()
-                        .withQuery("website:*")
+                        .withQuery("website", "*")
+                        .withTerm("name", "global")
                         .build(), Company.class);
         companyDatasetVtown.show();
 
