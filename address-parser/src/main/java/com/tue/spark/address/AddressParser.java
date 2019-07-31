@@ -49,6 +49,9 @@ public class AddressParser {
         }
 
         int streetIndex = i;
+        if (i < 0) {
+            return addressComponent;
+        }
         Result street = checkStreet(components.get(i--), ward.isConfident());
         if (street.isConfident()) {
             addressComponent.setStreet(street.getValue());
@@ -74,7 +77,7 @@ public class AddressParser {
         }
 
         addressComponent.setConfident(country.isConfident() && province.isConfident() && district.isConfident()
-                && ward.isConfident() && street.isConfident());
+                && ward.isConfident());
         if (!addressComponent.isConfident()) {
             return AddressParserExtender.builder()
                     .addressComponentReference(addressComponent)

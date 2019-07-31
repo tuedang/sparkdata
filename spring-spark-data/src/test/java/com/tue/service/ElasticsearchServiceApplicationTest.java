@@ -22,7 +22,7 @@ public class ElasticsearchServiceApplicationTest {
     }
 
     @Test
-    public void joinCondition() {
+    public void joinCondition() throws Exception{
         elasticsearchService.joinCondition();
     }
 

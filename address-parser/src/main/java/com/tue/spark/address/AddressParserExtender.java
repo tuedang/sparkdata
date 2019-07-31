@@ -17,7 +17,6 @@ public class AddressParserExtender {
     private String delimitor;
 
     public AddressComponent correct() {
-        System.out.println(addressComponentReference);
         return addressComponentReference;
     }
 }

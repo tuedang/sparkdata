@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Company {
+public class Company implements Serializable {
     private String name;
     @JsonProperty("tax_id")
     private String taxId;
@@ -20,7 +22,7 @@ public class Company {
     @Getter
     @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Address {
+    public static class Address implements Serializable{
         private String address;
         private String province;
         private String district;

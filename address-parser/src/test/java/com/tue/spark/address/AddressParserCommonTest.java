@@ -118,6 +118,19 @@ public class AddressParserCommonTest {
         assertThat(addressComponent.getWard()).isEqualTo(null);
         assertThat(addressComponent.getStreet()).isEqualTo("CMC Building, Duy Tan Street");
     }
+    @Test
+    public void parseCommonAddress_nonPrefix_full() {
+        String rawAddress = "95 Đường B2 - Phường Tây Thạnh - Quận Tân phú - TP Hồ Chí Minh";
+        AddressComponent addressComponent = AddressParser.parse(rawAddress);
+
+        assertNotNull(addressComponent);
+
+        assertThat(addressComponent.getCountry()).isEqualTo(null);
+        assertThat(addressComponent.getProvince()).isEqualTo("Hồ Chí Minh");
+        assertThat(addressComponent.getDistrict()).isEqualTo("Tân phú");
+        assertThat(addressComponent.getWard()).isEqualTo("Tây Thạnh");
+        assertThat(addressComponent.getStreet()).isEqualTo("95 Đường B2");
+    }
 
 
 }
