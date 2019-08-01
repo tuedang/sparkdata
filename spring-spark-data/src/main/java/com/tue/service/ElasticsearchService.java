@@ -54,10 +54,31 @@ public class ElasticsearchService {
     public void joinCondition() throws ExecutionException, InterruptedException {
         QueryBuilder companyQuery = CompanyQuery.builder()
                 .withQuery("website", "*")
-//                .withTerm("name", "global")
+                .withTerm("name", "global")
                 .build();
         JavaRDD<Company> companyRdd = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
-        companyRdd.collect().forEach(company -> {
+        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", companyQuery, Company.class);
+
+        JavaPairRDD<Company, Company> joined = companyRdd.cartesian(companyRddVtown)
+                .filter(tuple2 -> {
+                    double confident = StringSimilarity.isSimilarAddress(tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress());
+                    //System.out.println(String.format("%s: [%s<-->%s]", confident, tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
+                    return confident > 0.60;
+                });
+        joined.foreach(tuple2 -> {
+            System.out.println(String.format("[%s<-->%s]", tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
+        });
+        ElasticQueryHelper.showData(joined.keys(), sparkSession, Company.class);
+    }
+
+    public void addressVerification() {
+        QueryBuilder companyQuery = CompanyQuery.builder()
+                .withQuery("website", "*")
+//                .withTerm("name", "global")
+                .build();
+
+        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", companyQuery, Company.class);
+        companyRddVtown.collect().forEach(company -> {
             try {
                 AddressComponent addressComponent = AddressParser.parse(company.getAddress().getAddress());
                 System.out.println(String.format("%s [%s]", addressComponent, company.getAddress().getAddress()));
@@ -65,18 +86,5 @@ public class ElasticsearchService {
                 //e.printStackTrace();
             }
         });
-
-//        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", companyQuery, Company.class);
-//
-//        JavaPairRDD<Company, Company> joined = companyRdd.cartesian(companyRddVtown)
-//                .filter(tuple2 -> {
-//                    double confident = StringSimilarity.isSimilarAddress(tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress());
-//                    //System.out.println(String.format("%s: [%s<-->%s]", confident, tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
-//                    return confident > 0.60;
-//                });
-//        joined.foreach(tuple2 -> {
-//            System.out.println(String.format("[%s<-->%s]", tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
-//        });
-//        ElasticQueryHelper.showData(joined.keys(), sparkSession, Company.class);
     }
 }

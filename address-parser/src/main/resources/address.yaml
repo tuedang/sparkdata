@@ -2,67 +2,125 @@ address:
   name:
     countries: [Việt Nam, Viet Nam, VietNam, vn]
     provinces:
-      Đà Nẵng: [danang, da nang]
-      Hồ Chí Minh: [hcm, hochiminh, TPHCM, TP.HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP Hồ Chí Minh]
-      Hà Nội: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
-      Đồng Nai: []
-      Vũng Tàu: []
-      Bình Dương: []
-      Hải Dương: []
-      Hưng Yên: []
-      Bắc Giang: []
-      Long An: []
-      Thái Bình: []
-      Bến Tre: []
-      Thái Nguyên: []
-      Bắc Ninh: []
-      Trà Vinh: []
-      Vĩnh Phúc: []
-      Quảng Ngãi: []
-      Tiền Giang: []
-      Tây Ninh: []
-      Khánh Hòa: []
-      Đắc Lắc: []
-      Phú Thọ: []
-      Hải Phòng: []
-      Quảng Ninh: []
-      Quảng Nam: []
-      Cần Thơ: []
-      Quảng Bình: []
-      Bình Thuận: []
-      An Giang: []
-      Nghệ An: []
-      Thanh Hoá: []
-      Nam Định: []
-      Hà Nam: []
-      Yên Bái: []
-      Cà Mau: []
-      Phú Yên: []
-      Hòa Bình: []
-      Lạng Sơn: []
+      Đà Nẵng:
+        name: [danang, da nang]
+        district: [hello1, helllo2]
+      Hồ Chí Minh:
+        name: [hcm, hochiminh, TPHCM, TP.HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP.Hồ Chí Minh, TP Hồ Chí Minh]
+      Hà Nội:
+        name: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
+      Đồng Nai:
+        name: []
+      Vũng Tàu:
+        name: []
+      Bình Dương:
+        name: []
+      Hải Dương:
+        name: []
+      Hưng Yên:
+        name: []
+      Bắc Giang:
+        name: []
+      Long An:
+        name: []
+      Thái Bình:
+        name: []
+      Bến Tre:
+        name: []
+      Thái Nguyên:
+        name: []
+      Bắc Ninh:
+        name: []
+      Trà Vinh:
+        name: []
+      Vĩnh Phúc:
+        name: []
+      Quảng Ngãi:
+        name: []
+      Tiền Giang:
+        name: []
+      Tây Ninh:
+        name: []
+      Khánh Hòa:
+        name: []
+      Đắc Lắc:
+        name: []
+      Phú Thọ:
+        name: []
+      Hải Phòng:
+        name: []
+      Quảng Ninh:
+        name: []
+      Quảng Nam:
+        name: []
+      Cần Thơ:
+        name: []
+      Quảng Bình:
+        name: []
+      Bình Thuận:
+        name: []
+      An Giang:
+        name: []
+      Nghệ An:
+        name: []
+      Thanh Hoá:
+        name: []
+      Nam Định:
+        name: []
+      Hà Nam:
+        name: []
+      Yên Bái:
+        name: []
+      Cà Mau:
+        name: []
+      Phú Yên:
+        name: []
+      Hòa Bình:
+        name: []
+      Lạng Sơn:
+        name: []
       Huế: []
-      Kiên Giang: []
-      Bình Phước: []
-      Vĩnh Long: []
-      Đồng Tháp: []
-      Gia Lai: []
-      Lâm Đồng: []
-      Ninh Thuận: []
-      Bạc Liêu: []
-      Ninh Bình: []
-      Lào Cai: []
-      Hà Tĩnh: []
-      Lai Châu: []
-      Hậu Giang: []
-      Hà Giang: []
-      Quảng Trị: []
-      Đắk Nông: [Đắc Nông]
-      Cao Bằng: []
-      Kon Tum: [KonTum]
-      Điện Biên: []
+      Kiên Giang:
+        name: []
+      Bình Phước:
+        name: []
+      Vĩnh Long:
+        name: []
+      Đồng Tháp:
+        name: []
+      Gia Lai:
+        name: []
+      Lâm Đồng:
+        name: []
+      Ninh Thuận:
+        name: []
+      Bạc Liêu:
+        name: []
+      Ninh Bình:
+        name: []
+      Lào Cai:
+        name: []
+      Hà Tĩnh:
+        name: []
+      Lai Châu:
+        name: []
+      Hậu Giang:
+        name: []
+      Hà Giang:
+        name: []
+      Quảng Trị:
+        name: []
+      Đắk Nông:
+        name: [Đắc Nông]
+      Cao Bằng:
+        name: []
+      Kon Tum:
+        name: [KonTum]
+      Điện Biên:
+        name: []
 
   keyword:
-    ward: [Phường, Phuong, ward, Commune, Xã]
+    ward: [Phường, Phuờng, Phuong, ward, Commune, Xã, Thị Trấn]
     province: [Tỉnh, tinh, Thành Phố, Province]
     district: [Quận, quan, District, Huyện, Huyen]
     street: [Street, Đường, duong]

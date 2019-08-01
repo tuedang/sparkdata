@@ -22,6 +22,8 @@ public class AddressComponentParser {
     }
 
     private static final AddressConfiguration ADDRESS_CONFIGURATION = AddressConfiguration.getInstance();
+    private static final String PROVINCE_NAME_KEY = "name";
+    private static final String PROVINCE_DISTRICT_KEY = "district";
 
     public static Result checkCountry(String componentAddress) {
         for (String country : ADDRESS_CONFIGURATION.getCountries()) {
@@ -39,12 +41,12 @@ public class AddressComponentParser {
             }
         }
 
-        Map<String, List<String>> provinceMap = ADDRESS_CONFIGURATION.getProvinces();
+        Map<String, Map<String, List<String>>> provinceMap = ADDRESS_CONFIGURATION.getProvinces();
         for (String masterProvince : provinceMap.keySet()) {
             if (StringUtils.equalsIgnoreCase(component, masterProvince)) {
                 return Result.of(masterProvince, true);
             }
-            for (String provinceKeyword : provinceMap.get(masterProvince)) {
+            for (String provinceKeyword : provinceMap.get(masterProvince).get(PROVINCE_NAME_KEY)) {
                 if (StringUtils.equalsIgnoreCase(component, provinceKeyword)) {
                     return Result.of(masterProvince, true);
                 }

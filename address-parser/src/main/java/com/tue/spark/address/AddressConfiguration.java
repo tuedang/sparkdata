@@ -16,7 +16,7 @@ public final class AddressConfiguration {
     private static AddressConfiguration INSTANCE = null;
 
     private List<String> countries;
-    private Map<String, List<String>> provinces;
+    private Map<String, Map<String, List<String>>> provinces;
     private List<String> wardKeywords;
     private List<String> provinceKeywords;
     private List<String> districtKeywords;
