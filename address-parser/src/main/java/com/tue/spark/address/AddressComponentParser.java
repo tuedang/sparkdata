@@ -55,13 +55,26 @@ public class AddressComponentParser {
         return Result.of(null, false);
     }
 
-    public static Result checkDistrict(String component, boolean provinceConfident) {
-        for (String provinceKeyword : ADDRESS_CONFIGURATION.getDistrictKeywords()) {
-            if (StringUtils.containsIgnoreCase(component, provinceKeyword)) {
-                return Result.of(StringUtils.removeIgnoreCase(component, provinceKeyword).trim(), true);
+    public static Result checkDistrict(String component, Result provinceResult) {
+        for (String districtKeyword : ADDRESS_CONFIGURATION.getDistrictKeywords()) {
+            if (StringUtils.containsIgnoreCase(component, districtKeyword)) {
+                return Result.of(StringUtils.removeIgnoreCase(component, districtKeyword).trim(), true);
             }
         }
-        return Result.of(component, provinceConfident);
+
+        if (provinceResult.isConfident()) {
+            Map<String, List<String>> provinceMapData = ADDRESS_CONFIGURATION.getProvinces().get(provinceResult.getValue());
+            if (provinceMapData.containsKey(PROVINCE_DISTRICT_KEY)) {
+                List<String> districts = provinceMapData.get(PROVINCE_DISTRICT_KEY);
+                for (String district : districts) {
+                    if (StringUtils.equalsIgnoreCase(component, district)) {
+                        return Result.of(district, true);
+                    }
+                }
+            }
+        }
+
+        return Result.of(component, provinceResult.isConfident());
     }
 
     public static Result checkWard(String component) {

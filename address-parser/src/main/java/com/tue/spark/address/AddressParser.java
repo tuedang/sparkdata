@@ -39,7 +39,7 @@ public class AddressParser {
             i--;
         }
         // district
-        Result district = checkDistrict(components.get(i--), province.isConfident());
+        Result district = checkDistrict(components.get(i--), province);
         addressComponent.setDistrict(district.getValue());
 
         // ward || street
