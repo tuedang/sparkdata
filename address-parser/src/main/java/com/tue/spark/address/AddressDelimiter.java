@@ -1,7 +1,11 @@
 package com.tue.spark.address;
 
+import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddressDelimiter {
     public static final String COMMA = ",";
@@ -25,6 +29,16 @@ public class AddressDelimiter {
             return DASH;
         }
         return null;
+    }
+
+    public static List<String> splitByDelimitor(String inputAddress, char delimitor) {
+        return Splitter.on(delimitor)
+                .trimResults()
+                .omitEmptyStrings()
+                .splitToList(inputAddress)
+                .stream()
+                .map(s -> StringUtils.removeEnd(s, ".").trim())
+                .collect(Collectors.toList());
     }
 
     public static String detectPartialDelimitor(String searchString) {

@@ -24,4 +24,20 @@ public class AlternativeAddressParserTest {
         assertThat(addressComponent.getStreet()).isEqualTo("Số 9, ngách 83/32, ngõ 83, đường Ngọc Hồi, tổ 7");
         System.out.println(addressComponent);
     }
+
+    @Test
+    public void parseCommonAddress_specialCharProvince() {
+        String rawAddress = "Nhà B2- TT Bộ Giáo Dục , ngõ 191, Đường lạc Long Quân , Phường Xuân La , Quận Tây Hồ , TP, Hà Nội .";
+        AddressComponent addressComponent = addressParser.parse(rawAddress);
+
+        assertNotNull(addressComponent);
+
+        assertThat(addressComponent.getCountry()).isEqualTo(null);
+        assertThat(addressComponent.getProvince()).isEqualTo("Hà Nội");
+        assertThat(addressComponent.getDistrict()).isEqualTo("Tây Hồ");
+        assertThat(addressComponent.getWard()).isEqualTo("Xuân La");
+        assertThat(addressComponent.getStreet()).isEqualTo("Nhà B2- TT Bộ Giáo Dục , ngõ 191, Đường lạc Long Quân");
+        System.out.println(addressComponent);
+    }
+
 }

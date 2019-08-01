@@ -24,13 +24,7 @@ public class StandardAddressParser implements AddressParser {
         if (delimitor == null) {
             return null;
         }
-        List<String> components = Splitter.on(delimitor)
-                .trimResults()
-                .omitEmptyStrings()
-                .splitToList(rawAddress)
-                .stream()
-                .map(s -> StringUtils.removeEnd(s, ".").trim())
-                .collect(Collectors.toList());
+        List<String> components = AddressDelimiter.splitByDelimitor(rawAddress, delimitor.charAt(0));
 
         AddressComponent addressComponent = new AddressComponent();
         int i = components.size() - 1;

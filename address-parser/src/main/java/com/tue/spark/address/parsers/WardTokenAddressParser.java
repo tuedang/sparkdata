@@ -43,10 +43,7 @@ public class WardTokenAddressParser implements AddressParser {
         Validate.isTrue(mainPart.substring(0, result.getRawValue().length()).equals(result.getRawValue()),
                 "Parsing issue with '%s'", result.getRawValue());
 
-        List<String> mainParts = Splitter.on(separator)
-                .trimResults()
-                .omitEmptyStrings()
-                .splitToList(mainPart);
+        List<String> mainParts = AddressDelimiter.splitByDelimitor(mainPart, separator);
         int len = mainParts.size();
 
         AddressComponent addressComponent = new AddressComponent();
@@ -82,7 +79,27 @@ public class WardTokenAddressParser implements AddressParser {
         if(addressComponent.isConfident()) {
             log.info("Solved by wardParser {}: [{}]",  addressComponent, rawAddress);
         } else {
-            log.error("Cannot Solved by wardParser {}: [{}]",  addressComponent, rawAddress);
+            Result wardResultTry = AddressComponentParser.checkWard(mainParts.get(0));
+            Result districtResultTry = AddressComponentParser.checkDistrict(mainParts.get(1), provinceResult);
+//            Result provinceResultTry = AddressComponentParser.checkProvince(mainParts.get(2));
+//            if (provinceResultTry.isConfident()) {
+//                addressComponent.setProvince(provinceResultTry.getValue());
+//            }
+            if (districtResultTry.isConfident()) {
+                addressComponent.setDistrict(districtResultTry.getValue());
+            }
+            if (wardResultTry.isConfident()) {
+                addressComponent.setWard(wardResultTry.getValue());
+            }
+            addressComponent.setConfident(countryResult.isConfident()
+                    && (provinceResult.isConfident())
+                    && (districtResult.isConfident() || districtResultTry.isConfident())
+                    && (wardResult.isConfident() || wardResultTry.isConfident()));
+            if (addressComponent.isConfident()) {
+                log.error("Crazyfoward Solved by wardParser {}: [{}]", addressComponent, rawAddress);
+            } else {
+                log.error("Cannot Solved by wardParser {}: [{}]", addressComponent, rawAddress);
+            }
         }
         return addressComponent;
     }

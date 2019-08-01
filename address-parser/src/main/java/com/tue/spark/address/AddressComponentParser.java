@@ -26,6 +26,9 @@ public class AddressComponentParser {
         for (String provinceKeyword : ADDRESS_CONFIGURATION.getProvinceKeywords()) {
             if (StringUtils.containsIgnoreCase(component, provinceKeyword)) {
                 String rawProvince = StringUtils.removeIgnoreCase(component, provinceKeyword).trim();
+                if (StringUtils.isEmpty(rawProvince)) {
+                    return Result.of(rawProvince, false);
+                }
                 String noAccentrawProvince = TextHelper.stripAccents(rawProvince);
                 for (String masterProvince : ADDRESS_CONFIGURATION.getProvinces().keySet()) {
                     String noAccentMasterProvince = TextHelper.stripAccents(masterProvince);
