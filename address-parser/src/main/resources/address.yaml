@@ -10,7 +10,7 @@ address:
       Hà Nội:
         name: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
       Đồng Nai:
-        name: []
+        name: [Dong Nai]
       Vũng Tàu:
         name: []
       Bình Dương:
@@ -30,7 +30,7 @@ address:
       Thái Nguyên:
         name: []
       Bắc Ninh:
-        name: []
+        name: [Bac Ninh]
       Trà Vinh:
         name: []
       Vĩnh Phúc:
@@ -52,7 +52,7 @@ address:
       Quảng Ninh:
         name: []
       Quảng Nam:
-        name: []
+        name: [Quang Nam]
       Cần Thơ:
         name: []
       Quảng Bình:
@@ -79,7 +79,8 @@ address:
         name: []
       Lạng Sơn:
         name: []
-      Huế: []
+      Huế:
+        name: []
       Kiên Giang:
         name: []
       Bình Phước:

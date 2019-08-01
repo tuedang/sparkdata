@@ -14,8 +14,10 @@ public class AddressComponent {
     private String province;
     private String district;
     private String ward;
-
     private String street;
 
     private boolean confident;
+
+    @ToString.Exclude
+    private AddressParserExtender addressParserExtender;
 }

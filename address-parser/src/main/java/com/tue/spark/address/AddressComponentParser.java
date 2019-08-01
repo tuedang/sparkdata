@@ -1,31 +1,18 @@
 package com.tue.spark.address;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
+import static com.tue.spark.address.AddressParser.Result;
 
 public class AddressComponentParser {
-    @Getter
-    @AllArgsConstructor
-    @ToString
-    static class Result {
-        private String value;
-        private boolean confident;
-
-        public static Result of(String value, boolean confident) {
-            return new Result(value, confident);
-        }
-    }
 
     private static final AddressConfiguration ADDRESS_CONFIGURATION = AddressConfiguration.getInstance();
     private static final String PROVINCE_NAME_KEY = "name";
     private static final String PROVINCE_DISTRICT_KEY = "district";
 
-    public static Result checkCountry(String componentAddress) {
+    public static AddressParser.Result checkCountry(String componentAddress) {
         for (String country : ADDRESS_CONFIGURATION.getCountries()) {
             if (StringUtils.equalsIgnoreCase(country, componentAddress)) {
                 return new Result(componentAddress, true);
@@ -37,7 +24,8 @@ public class AddressComponentParser {
     public static Result checkProvince(String component) {
         for (String provinceKeyword : ADDRESS_CONFIGURATION.getProvinceKeywords()) {
             if (StringUtils.containsIgnoreCase(component, provinceKeyword)) {
-                return Result.of(StringUtils.removeIgnoreCase(component, provinceKeyword).trim(), true);
+                String rawProvince = StringUtils.removeIgnoreCase(component, provinceKeyword).trim();
+                return Result.of(rawProvince, true);
             }
         }
 
@@ -45,6 +33,9 @@ public class AddressComponentParser {
         for (String masterProvince : provinceMap.keySet()) {
             if (StringUtils.equalsIgnoreCase(component, masterProvince)) {
                 return Result.of(masterProvince, true);
+            }
+            if(provinceMap.get(masterProvince) instanceof List) {
+                System.out.println("ERROR");
             }
             for (String provinceKeyword : provinceMap.get(masterProvince).get(PROVINCE_NAME_KEY)) {
                 if (StringUtils.equalsIgnoreCase(component, provinceKeyword)) {
@@ -64,16 +55,18 @@ public class AddressComponentParser {
 
         if (provinceResult.isConfident()) {
             Map<String, List<String>> provinceMapData = ADDRESS_CONFIGURATION.getProvinces().get(provinceResult.getValue());
-            if (provinceMapData.containsKey(PROVINCE_DISTRICT_KEY)) {
+            if (provinceMapData == null) {
+                System.err.println(String.format("PROVINCE NULL [%s]", provinceResult));
+            }
+            if (provinceMapData != null && provinceMapData.containsKey(PROVINCE_DISTRICT_KEY)) {
                 List<String> districts = provinceMapData.get(PROVINCE_DISTRICT_KEY);
                 for (String district : districts) {
-                    if (StringUtils.equalsIgnoreCase(component, district)) {
+                    if (StringUtils.containsIgnoreCase(component, district)) {
                         return Result.of(district, true);
                     }
                 }
             }
         }
-
         return Result.of(component, provinceResult.isConfident());
     }
 

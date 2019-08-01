@@ -1,19 +1,22 @@
-package com.tue.spark.address;
+package com.tue.spark.address.parsers;
 
 import com.google.common.base.Splitter;
+import com.tue.spark.address.AddressComponent;
+import com.tue.spark.address.AddressDelimiter;
+import com.tue.spark.address.AddressParser;
+import com.tue.spark.address.AddressParserExtender;
 
 import java.util.List;
 
-import static com.tue.spark.address.AddressComponentParser.Result;
 import static com.tue.spark.address.AddressComponentParser.checkCountry;
 import static com.tue.spark.address.AddressComponentParser.checkDistrict;
 import static com.tue.spark.address.AddressComponentParser.checkProvince;
 import static com.tue.spark.address.AddressComponentParser.checkStreet;
 import static com.tue.spark.address.AddressComponentParser.checkWard;
 
-public class StandardAddressParser {
+public class StandardAddressParser implements AddressParser {
 
-    public static AddressComponent parse(String rawAddress) {
+    public AddressComponent parse(String rawAddress) {
         String delimitor = AddressDelimiter.detectDelimitor(rawAddress);
         if (delimitor == null) {
             return null;
@@ -76,10 +79,12 @@ public class StandardAddressParser {
             addressComponent.setStreet(streetValue);
         }
 
-        addressComponent.setConfident(country.isConfident() && province.isConfident() && district.isConfident()
+        addressComponent.setConfident(country.isConfident()
+                && province.isConfident()
+                && district.isConfident()
                 && ward.isConfident());
         if (!addressComponent.isConfident()) {
-            return AddressParserExtender.builder()
+            addressComponent.setAddressParserExtender(AddressParserExtender.builder()
                     .addressComponentReference(addressComponent)
                     .countryResult(country)
                     .provinceResult(province)
@@ -88,8 +93,7 @@ public class StandardAddressParser {
                     .streetResult(street)
                     .rawAddress(rawAddress)
                     .delimitor(delimitor)
-                    .build()
-                    .correct();
+                    .build());
         }
         return addressComponent;
     }
