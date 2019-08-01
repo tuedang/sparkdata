@@ -1,15 +1,12 @@
 package com.tue.spark.address.parsers;
 
-import com.google.common.base.Splitter;
 import com.tue.spark.address.AddressComponent;
 import com.tue.spark.address.AddressDelimiter;
 import com.tue.spark.address.AddressParser;
 import com.tue.spark.address.AddressParserExtender;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.tue.spark.address.AddressComponentParser.checkCountry;
 import static com.tue.spark.address.AddressComponentParser.checkDistrict;
@@ -19,6 +16,8 @@ import static com.tue.spark.address.AddressComponentParser.checkWard;
 
 @Slf4j
 public class StandardAddressParser implements AddressParser {
+    private static final String RESOLVER_NAME = "standard";
+
     public AddressComponent parse(String rawAddress) {
         String delimitor = AddressDelimiter.detectDelimitor(rawAddress);
         if (delimitor == null) {
@@ -96,7 +95,7 @@ public class StandardAddressParser implements AddressParser {
                     .build());
         }
         if (addressComponent.isConfident()) {
-            log.info("Solved by standardParser {}: [{}]", addressComponent, rawAddress);
+            addressComponent.setResolver(RESOLVER_NAME);
         }
         return addressComponent;
     }

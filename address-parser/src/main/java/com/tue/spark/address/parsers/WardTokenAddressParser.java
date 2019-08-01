@@ -1,6 +1,5 @@
 package com.tue.spark.address.parsers;
 
-import com.google.common.base.Splitter;
 import com.tue.spark.address.AddressComponent;
 import com.tue.spark.address.AddressComponentParser;
 import com.tue.spark.address.AddressDelimiter;
@@ -13,6 +12,8 @@ import java.util.List;
 
 @Slf4j
 public class WardTokenAddressParser implements AddressParser {
+    private static final String RESOLVER_NAME = "ward";
+
     @Override
     public AddressComponent parse(String rawAddress) {
         Result result = AddressComponentParser.checkWard(rawAddress);
@@ -77,14 +78,11 @@ public class WardTokenAddressParser implements AddressParser {
                 && districtResult.isConfident()
                 && wardResult.isConfident());
         if(addressComponent.isConfident()) {
-            log.info("Solved by wardParser {}: [{}]",  addressComponent, rawAddress);
+            addressComponent.setResolver(RESOLVER_NAME);
         } else {
             Result wardResultTry = AddressComponentParser.checkWard(mainParts.get(0));
             Result districtResultTry = AddressComponentParser.checkDistrict(mainParts.get(1), provinceResult);
-//            Result provinceResultTry = AddressComponentParser.checkProvince(mainParts.get(2));
-//            if (provinceResultTry.isConfident()) {
-//                addressComponent.setProvince(provinceResultTry.getValue());
-//            }
+
             if (districtResultTry.isConfident()) {
                 addressComponent.setDistrict(districtResultTry.getValue());
             }
@@ -96,9 +94,7 @@ public class WardTokenAddressParser implements AddressParser {
                     && (districtResult.isConfident() || districtResultTry.isConfident())
                     && (wardResult.isConfident() || wardResultTry.isConfident()));
             if (addressComponent.isConfident()) {
-                log.error("Crazyfoward Solved by wardParser {}: [{}]", addressComponent, rawAddress);
-            } else {
-                log.error("Cannot Solved by wardParser {}: [{}]", addressComponent, rawAddress);
+                addressComponent.setResolver(RESOLVER_NAME);
             }
         }
         return addressComponent;

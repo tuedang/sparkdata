@@ -27,34 +27,44 @@ public class AddressComponentParser {
             if (StringUtils.containsIgnoreCase(component, provinceKeyword)) {
                 String rawProvince = StringUtils.removeIgnoreCase(component, provinceKeyword).trim();
                 if (StringUtils.isEmpty(rawProvince)) {
-                    return Result.of(rawProvince, false);
+                    return Result.of(rawProvince, false, component);
                 }
                 String noAccentrawProvince = TextHelper.stripAccents(rawProvince);
                 for (String masterProvince : ADDRESS_CONFIGURATION.getProvinces().keySet()) {
                     String noAccentMasterProvince = TextHelper.stripAccents(masterProvince);
                     if (StringUtils.containsIgnoreCase(noAccentrawProvince, noAccentMasterProvince)) {
-                        return Result.of(masterProvince, true);
+                        return Result.of(masterProvince, true, component);
                     }
                 }
-                return Result.of(rawProvince, true);
+                Result provinceResult = checkProvinceInDictionary(rawProvince);
+                if (provinceResult.isConfident()) {
+                    return Result.of(provinceResult.getValue(), true, component);
+                }
             }
         }
 
+        Result provinceResult = checkProvinceInDictionary(component);
+        if (provinceResult.isConfident()) {
+            return Result.of(provinceResult.getValue(), true, component);
+        }
+        return Result.of(null, false, component);
+    }
+
+    private static Result checkProvinceInDictionary(String rawProvince) {
         Map<String, Map<String, List<String>>> provinceMap = ADDRESS_CONFIGURATION.getProvinces();
+        String noAccentComponent = TextHelper.stripAccents(rawProvince);
         for (String masterProvince : provinceMap.keySet()) {
-            if (StringUtils.equalsIgnoreCase(component, masterProvince)) {
-                return Result.of(masterProvince, true);
-            }
-            if(provinceMap.get(masterProvince) instanceof List) {
-                System.out.println("ERROR");
+            String noAccentMasterProvince = TextHelper.stripAccents(masterProvince);
+            if (StringUtils.equalsIgnoreCase(noAccentComponent, noAccentMasterProvince)) {
+                return Result.of(masterProvince, true, rawProvince);
             }
             for (String provinceKeyword : provinceMap.get(masterProvince).get(PROVINCE_NAME_KEY)) {
-                if (StringUtils.equalsIgnoreCase(component, provinceKeyword)) {
-                    return Result.of(masterProvince, true);
+                if (StringUtils.equalsIgnoreCase(noAccentComponent, TextHelper.stripAccents(provinceKeyword))) {
+                    return Result.of(masterProvince, true, rawProvince);
                 }
             }
         }
-        return Result.of(null, false);
+        return Result.of(null, false, rawProvince);
     }
 
     public static Result checkDistrict(String component, Result provinceResult) {

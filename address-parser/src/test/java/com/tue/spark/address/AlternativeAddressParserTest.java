@@ -1,12 +1,10 @@
 package com.tue.spark.address;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-@Ignore
 public class AlternativeAddressParserTest {
     private final AddressParser addressParser = new AddressParserDelegator();
 

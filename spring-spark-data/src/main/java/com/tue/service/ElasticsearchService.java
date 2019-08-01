@@ -77,17 +77,12 @@ public class ElasticsearchService {
 //                .withTerm("name", "global")
                 .build();
 
-        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", companyQuery, Company.class);
+        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
         companyRddVtown.collect().forEach(company -> {
-            try {
-                String rawAddress = company.getAddress().getAddress();
-                if (rawAddress != null) {
-                    AddressComponent addressComponent = new AddressParserDelegator().parse(company.getAddress().getAddress());
-                    System.out.println(String.format("%s [%s]", addressComponent, company.getAddress().getAddress()));
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            String rawAddress = company.getAddress().getAddress();
+            if (rawAddress != null) {
+                AddressComponent addressComponent = new AddressParserDelegator().parse(company.getAddress().getAddress());
+                System.out.println(String.format("%s [%s]", addressComponent, company.getAddress().getAddress()));
             }
         });
     }

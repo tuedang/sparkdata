@@ -6,7 +6,7 @@ address:
         name: [danang, da nang]
         district: [hello1, helllo2]
       Hồ Chí Minh:
-        name: [hcm, hochiminh, Ho Chi Minh, TPHCM, TP.HCM, TP HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP.Hồ Chí Minh, TP Hồ Chí Minh, HCM city, HCMC, HCM]
+        name: [hcm, hochiminh, Ho Chi Minh, TPHCM, TP.HCM, TP HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP.Hồ Chí Minh, TP Hồ Chí Minh, Ho Chi Minh City, HCM city, HCMC, HCM]
       Hà Nội:
         name: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
       Đồng Nai:
@@ -14,6 +14,8 @@ address:
       Vũng Tàu:
         name: []
       Bình Dương:
+        name: []
+      Bình Định:
         name: []
       Hải Dương:
         name: []
@@ -121,8 +123,8 @@ address:
         name: []
 
   keyword:
-    ward: [Phường, Phuờng, Phuong, ward, Commune, Xã, Thị Trấn, P.]
-    province: [Tỉnh, tinh, Thành Phố, Province, TP., T.P, TP, T.]
-    district: [Quận, quan, District, Huyện, Huyen, Q.]
+    ward: [Phường, Phuờng, Phưòng, Phuong, ward, Commune, Xã, Thị Trấn, TT., P., X.]
+    province: [Tỉnh, Tỉnh, tinh, Thành Phố, Province, TP., T.P, TP, T., H.]
+    district: [Quận, quan, District, Dist., Dist, Thành phố, Huyện, Huyen, TX, Q., H.]
     street: [Street, Đường, duong]
 

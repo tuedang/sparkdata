@@ -17,6 +17,7 @@ public class AddressComponent {
     private String street;
 
     private boolean confident;
+    private String resolver;
 
     @ToString.Exclude
     private AddressParserExtender addressParserExtender;
