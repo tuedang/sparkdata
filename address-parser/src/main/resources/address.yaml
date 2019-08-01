@@ -1,12 +1,12 @@
 address:
   name:
-    countries: [Việt Nam, Viet Nam, VietNam, vn]
+    countries: [Việt Nam, Viet Nam, VietNam, vn, ViệtNam]
     provinces:
       Đà Nẵng:
         name: [danang, da nang]
         district: [hello1, helllo2]
       Hồ Chí Minh:
-        name: [hcm, hochiminh, TPHCM, TP.HCM, TP HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP.Hồ Chí Minh, TP Hồ Chí Minh]
+        name: [hcm, hochiminh, Ho Chi Minh, TPHCM, TP.HCM, TP HCM, Thành Phố Hồ Chí Minh, TP. Hồ Chí Minh, TP.Hồ Chí Minh, TP Hồ Chí Minh, HCM city, HCMC]
       Hà Nội:
         name: [hn, hanoi, ha noi, TP.HN, TP. HN, TP. Hà Nội]
       Đồng Nai:
@@ -122,7 +122,7 @@ address:
 
   keyword:
     ward: [Phường, Phuờng, Phuong, ward, Commune, Xã, Thị Trấn, P.]
-    province: [Tỉnh, tinh, Thành Phố, Province]
+    province: [Tỉnh, tinh, Thành Phố, Province, TP, T.P, TP., T.]
     district: [Quận, quan, District, Huyện, Huyen, Q.]
     street: [Street, Đường, duong]
 

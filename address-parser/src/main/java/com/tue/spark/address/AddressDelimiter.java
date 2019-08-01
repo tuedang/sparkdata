@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 public class AddressDelimiter {
-    private static final String COMMA = ",";
-    private static final String DASH = "-";
+    public static final String COMMA = ",";
+    public static final String DASH = "-";
 
     public static String detectDelimitor(String rawAddress) {
         Validate.isTrue(rawAddress != null, "Address is null");
@@ -22,6 +22,59 @@ public class AddressDelimiter {
             return COMMA;
         }
         if (dashCount > commaCount && dashCount > 2) {
+            return DASH;
+        }
+        return null;
+    }
+
+    public static String detectPartialDelimitor(String searchString) {
+        int commaCount = StringUtils.countMatches(searchString, COMMA);
+        if (commaCount > 0) {
+            return COMMA;
+        }
+        int dashCount = StringUtils.countMatches(searchString, DASH);
+        if (dashCount > 0) {
+            return DASH;
+        }
+        return null;
+    }
+
+    public static String detectLastDelimitor(String searchString) {
+        int commaIndex = StringUtils.lastIndexOf(searchString, COMMA);
+        int dashIndex = StringUtils.lastIndexOf(searchString, DASH);
+
+        if (commaIndex > 0 && dashIndex > 0) {
+            if (commaIndex > dashIndex) {
+                return COMMA;
+            } else {
+                return DASH;
+            }
+        }
+
+        if (commaIndex > -1) {
+            return COMMA;
+        }
+        if (dashIndex > -1) {
+            return DASH;
+        }
+        return null;
+    }
+
+    public static String detectFirstDelimitor(String searchString) {
+        int commaIndex = StringUtils.indexOf(searchString, COMMA);
+        int dashIndex = StringUtils.indexOf(searchString, DASH);
+
+        if (commaIndex > 0 && dashIndex > 0) {
+            if (commaIndex < dashIndex) {
+                return COMMA;
+            } else {
+                return DASH;
+            }
+        }
+        if (commaIndex > -1) {
+            return COMMA;
+        }
+        if (dashIndex > -1) {
             return DASH;
         }
         return null;

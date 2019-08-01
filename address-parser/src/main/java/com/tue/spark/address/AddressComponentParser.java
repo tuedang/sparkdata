@@ -16,10 +16,10 @@ public class AddressComponentParser {
     public static AddressParser.Result checkCountry(String componentAddress) {
         for (String country : ADDRESS_CONFIGURATION.getCountries()) {
             if (StringUtils.equalsIgnoreCase(country, componentAddress)) {
-                return new Result(componentAddress, true);
+                return Result.of(componentAddress, true);
             }
         }
-        return new Result(null, true);
+        return Result.of(null, true);
     }
 
     public static Result checkProvince(String component) {
@@ -81,7 +81,7 @@ public class AddressComponentParser {
     public static Result checkWard(String component) {
         for (String wardKeyword : ADDRESS_CONFIGURATION.getWardKeywords()) {
             if (StringUtils.containsIgnoreCase(component, wardKeyword)) {
-                return Result.of(StringUtils.removeIgnoreCase(component, wardKeyword).trim(), true);
+                return Result.of(StringUtils.removeIgnoreCase(component, wardKeyword).trim(), true, wardKeyword);
             }
         }
         return Result.of(component, false);
@@ -90,7 +90,7 @@ public class AddressComponentParser {
     public static Result checkStreet(String component, boolean wardConfident) {
         for (String keyword : ADDRESS_CONFIGURATION.getStreetKeywords()) {
             if (StringUtils.containsIgnoreCase(component, keyword)) {
-                return Result.of(component, true);
+                return Result.of(component, true, keyword);
             }
         }
         return Result.of(component, wardConfident);

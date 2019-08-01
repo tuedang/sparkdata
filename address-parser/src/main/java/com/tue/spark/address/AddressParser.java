@@ -11,9 +11,14 @@ public interface AddressParser {
     class Result {
         private String value;
         private boolean confident;
+        private String rawValue;
 
         public static Result of(String value, boolean confident) {
-            return new Result(value, confident);
+            return new Result(value, confident, null);
+        }
+
+        public static Result of(String value, boolean confident, String rawValue) {
+            return new Result(value, confident, rawValue);
         }
     }
 
