@@ -2,7 +2,7 @@ package com.tue.service;
 
 import com.tue.domain.similarity.StringSimilarity;
 import com.tue.spark.address.AddressComponent;
-import com.tue.spark.address.AddressParser;
+import com.tue.spark.address.StandardAddressParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -80,7 +80,7 @@ public class ElasticsearchService {
         JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", companyQuery, Company.class);
         companyRddVtown.collect().forEach(company -> {
             try {
-                AddressComponent addressComponent = AddressParser.parse(company.getAddress().getAddress());
+                AddressComponent addressComponent = StandardAddressParser.parse(company.getAddress().getAddress());
                 System.out.println(String.format("%s [%s]", addressComponent, company.getAddress().getAddress()));
             } catch (Exception e) {
                 //e.printStackTrace();

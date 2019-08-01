@@ -6,11 +6,11 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-public class AddressParserExtenderTest {
+public class StandardAddressParserExtenderTest {
     @Test
     public void parseCommonAddress_thitran() {
         String rawAddress = "Tổ 4, Thị Trấn Quang Minh, Huyện Mê Linh, Thành phố Hà Nội";
-        AddressComponent addressComponent = AddressParser.parse(rawAddress);
+        AddressComponent addressComponent = StandardAddressParser.parse(rawAddress);
 
         assertNotNull(addressComponent);
 
@@ -25,7 +25,7 @@ public class AddressParserExtenderTest {
     @Test
     public void parseCommonAddress_type_onward() {
         String rawAddress = "390-392 Nguyễn Thị Minh Khai - Phuờng 05 - Quận 3 - TP Hồ Chí Minh";
-        AddressComponent addressComponent = AddressParser.parse(rawAddress);
+        AddressComponent addressComponent = StandardAddressParser.parse(rawAddress);
 
         assertNotNull(addressComponent);
 
@@ -41,7 +41,7 @@ public class AddressParserExtenderTest {
     @Ignore
     public void parseCommonAddress_mixingSeparator() {
         String rawAddress = "Số 9, ngách 83/32, ngõ 83, đường Ngọc Hồi, tổ 7 - Phường Hoàng Liệt - Quận Hoàng Mai - Hà Nội";
-        AddressComponent addressComponent = AddressParser.parse(rawAddress);
+        AddressComponent addressComponent = StandardAddressParser.parse(rawAddress);
 
         assertNotNull(addressComponent);
 

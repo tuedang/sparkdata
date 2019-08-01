@@ -11,7 +11,7 @@ import static com.tue.spark.address.AddressComponentParser.checkProvince;
 import static com.tue.spark.address.AddressComponentParser.checkStreet;
 import static com.tue.spark.address.AddressComponentParser.checkWard;
 
-public class AddressParser {
+public class StandardAddressParser {
 
     public static AddressComponent parse(String rawAddress) {
         String delimitor = AddressDelimiter.detectDelimitor(rawAddress);
