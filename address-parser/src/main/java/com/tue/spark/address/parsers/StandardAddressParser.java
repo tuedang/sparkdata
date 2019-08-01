@@ -5,8 +5,10 @@ import com.tue.spark.address.AddressComponent;
 import com.tue.spark.address.AddressDelimiter;
 import com.tue.spark.address.AddressParser;
 import com.tue.spark.address.AddressParserExtender;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.tue.spark.address.AddressComponentParser.checkCountry;
 import static com.tue.spark.address.AddressComponentParser.checkDistrict;
@@ -24,7 +26,10 @@ public class StandardAddressParser implements AddressParser {
         List<String> components = Splitter.on(delimitor)
                 .trimResults()
                 .omitEmptyStrings()
-                .splitToList(rawAddress);
+                .splitToList(rawAddress)
+                .stream()
+                .map(s -> StringUtils.removeEnd(s, "."))
+                .collect(Collectors.toList());
 
         AddressComponent addressComponent = new AddressComponent();
         int i = components.size() - 1;

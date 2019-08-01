@@ -1,5 +1,6 @@
 package com.tue.spark.address;
 
+import com.tue.spark.TextHelper;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -25,6 +26,13 @@ public class AddressComponentParser {
         for (String provinceKeyword : ADDRESS_CONFIGURATION.getProvinceKeywords()) {
             if (StringUtils.containsIgnoreCase(component, provinceKeyword)) {
                 String rawProvince = StringUtils.removeIgnoreCase(component, provinceKeyword).trim();
+                String noAccentrawProvince = TextHelper.stripAccents(rawProvince);
+                for (String masterProvince : ADDRESS_CONFIGURATION.getProvinces().keySet()) {
+                    String noAccentMasterProvince = TextHelper.stripAccents(masterProvince);
+                    if (StringUtils.containsIgnoreCase(noAccentrawProvince, noAccentMasterProvince)) {
+                        return Result.of(masterProvince, true);
+                    }
+                }
                 return Result.of(rawProvince, true);
             }
         }

@@ -72,7 +72,7 @@ public class StandardAddressParserCommonTest {
         assertNotNull(addressComponent);
 
         assertThat(addressComponent.getCountry()).isEqualTo("Viet Nam");
-        assertThat(addressComponent.getProvince()).isEqualTo("Ba Ria-Vung Tau");
+        assertThat(addressComponent.getProvince()).isEqualTo("Vũng Tàu");
         assertThat(addressComponent.getDistrict()).isEqualTo("Tan Thanh");
         assertThat(addressComponent.getWard()).isEqualTo("My Xuan");
         assertThat(addressComponent.getStreet()).isEqualTo("My Xuan A2 Industrial Zone");
