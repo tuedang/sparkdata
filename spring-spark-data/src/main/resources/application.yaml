@@ -4,11 +4,23 @@ spark:
     name: Spring Spark Word Count Application
 #  spark.home=%SPARK_HOME%
 
-#  server.port=3000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 spring:
+  server:
+    port: 8080
   main:
-    lazy-initialization: true
+    lazy-initialization: false
+  application:
+    name: greet-service
+  boot:
+    admin:
+      client:
+        url: http://localhost:${spring.server.port}
 
 logging:
   level:
