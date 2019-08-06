@@ -19,6 +19,7 @@ public class SparkConfig {
 
     @Bean
     public SparkConf conf() {
+        // Reference: https://spark.apache.org/docs/latest/configuration.html
         SparkConf conf = new SparkConf().setAppName(appName).setMaster(masterUri);
         conf.set("es.resource", "vnf/companies");
         conf.set("es.nodes", "192.168.1.117");
@@ -27,6 +28,19 @@ public class SparkConfig {
 
         conf.set("spark.driver.memory", "4g");
         conf.set("spark.executor.memory", "4g");
+
+        conf.set("es.batch.size.bytes", "300000000");
+        conf.set("es.batch.size.entries", "5000");
+        conf.set("es.batch.write.refresh", "false");
+        conf.set("es.batch.write.retry.count", "50");
+        conf.set("es.batch.write.retry.wait", "20s");
+        conf.set("es.http.timeout", "50m");
+        conf.set("es.http.retries", "10");
+        conf.set("es.action.heart.beat.lead", "50");
+        conf.set("es.batch.size.entries", "10s");
+        conf.set("es.nodes.discovery", "false");
+        conf.set("es.nodes.client.only", "false");
+        conf.set("spark.executor.cores", "1");
         return conf;
     }
 
