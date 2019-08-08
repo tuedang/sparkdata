@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ToString
 public class Company implements Serializable {
     private String name;
     @JsonProperty("tax_id")
@@ -21,6 +23,7 @@ public class Company implements Serializable {
 
     @Getter
     @Setter
+    @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Address implements Serializable{
         private String address;
