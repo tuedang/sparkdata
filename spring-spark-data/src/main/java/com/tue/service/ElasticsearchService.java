@@ -14,7 +14,6 @@ import org.elasticsearch.hadoop.rest.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -57,16 +56,13 @@ public class ElasticsearchService {
 
         QueryBuilder companyQuery = CompanyQuery.builder()
                 .withQuery("website", "*")
-//                .withTerm("name", "global")
-//                .withTerm("address.province", "minh")
-                .withTerm("address.district", "3")
-//                .withQuery("address.province", "'TP Hồ Chí Minh'")
-//                .withQuery("address.district", "'Quận 3'")
+                .withTermKeyword("address.province", "TP Hồ Chí Minh")
+                .withTermKeyword("address.district", "Quận 3")
                 .build();
         JavaRDD<Company> companyRdd = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
         JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", CompanyQuery.builder()
                 .withQuery("website", "*")
-                .withTerm("address.address", "3")
+                .withExactQuery("address.address", "quận 3")
                 .build(), Company.class);
 
         JavaPairRDD<Company, Company> joined = companyRdd.cartesian(companyRddVtown)
@@ -86,7 +82,7 @@ public class ElasticsearchService {
     public void addressVerification() {
         QueryBuilder companyQuery = CompanyQuery.builder()
                 .withQuery("website", "*")
-//                .withTerm("name", "global")
+                .withTerm("name", "global")
                 .build();
 
         JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
