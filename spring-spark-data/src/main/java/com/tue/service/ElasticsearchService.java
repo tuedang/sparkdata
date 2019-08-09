@@ -14,8 +14,6 @@ import org.elasticsearch.hadoop.rest.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @Slf4j
 @Service
 public class ElasticsearchService {
@@ -52,29 +50,26 @@ public class ElasticsearchService {
     }
 
     public void joinCondition() {
-        AtomicInteger count = new AtomicInteger();
-
         QueryBuilder companyQuery = CompanyQuery.builder()
                 .withQuery("website", "*")
                 .withTermKeyword("address.province", "TP Hồ Chí Minh")
-                .withTermKeyword("address.district", "Quận 3")
+                .withTermKeyword("address.district", "Quận Tân Bình")
                 .build();
         JavaRDD<Company> companyRdd = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
         JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", CompanyQuery.builder()
                 .withQuery("website", "*")
-                .withExactQuery("address.address", "quận 3")
+                .withExactQuery("address.address", "quận tân bình")
                 .build(), Company.class);
 
-        JavaPairRDD<Company, Company> joined = companyRdd.cartesian(companyRddVtown)
+        JavaPairRDD<Company, Company> joined = companyRdd.cache().cartesian(companyRddVtown.cache())
                 .filter(tuple2 -> {
                     double confident = StringSimilarity.isSimilarAddress(tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress());
-                    //System.out.println(String.format("%s: [%s<-->%s]", confident, tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
-                    return confident > 0.80;
+                    boolean selected = confident > 0.80;
+                    if (selected) {
+                        System.out.println(String.format("%s: [%s<-->%s]", confident, tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
+                    }
+                    return selected;
                 });
-        joined.foreach(tuple2 -> {
-            System.out.println(String.format("%s. [%s<->%s] [%s<-->%s]", count.incrementAndGet(), tuple2._1.getName(), tuple2._2.getName(),
-                    tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
-        });
 //        ElasticQueryHelper.showData(joined.keys(), sparkSession, Company.class);
         log.info(String.format("{\"count\": \"%s-%s => %s\"}", companyRdd.count(), companyRddVtown.count(), joined.count()));
     }
