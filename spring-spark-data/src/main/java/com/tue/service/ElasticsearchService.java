@@ -1,6 +1,6 @@
 package com.tue.service;
 
-import com.tue.domain.similarity.StringSimilarity;
+import com.tue.domain.similarity.CompanySimilarity;
 import com.tue.spark.address.AddressComponent;
 import com.tue.spark.address.AddressParserDelegator;
 import lombok.extern.slf4j.Slf4j;
@@ -63,10 +63,10 @@ public class ElasticsearchService {
 
         JavaPairRDD<Company, Company> joined = companyRdd.cache().cartesian(companyRddVtown.cache())
                 .filter(tuple2 -> {
-                    double confident = StringSimilarity.isSimilarAddress(tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress());
-                    boolean selected = confident > 0.80;
+                    boolean selected = CompanySimilarity.isSimilar(tuple2._1, tuple2._2);
                     if (selected) {
-                        System.out.println(String.format("%s: [%s<-->%s]", confident, tuple2._1.getAddress().getAddress(), tuple2._2.getAddress().getAddress()));
+                        System.out.println(String.format("[%s==%s] <->\n [%s==%s]", tuple2._1.getName(), tuple2._1.getAddress().getAddress(),
+                                tuple2._2.getName(), tuple2._2.getAddress().getAddress()));
                     }
                     return selected;
                 });
