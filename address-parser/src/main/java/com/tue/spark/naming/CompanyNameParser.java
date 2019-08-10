@@ -8,17 +8,13 @@ public class CompanyNameParser {
             return null;
         }
         String type = getType(rawCompanyName);
-        String name = StringUtils.removeIgnoreCase(rawCompanyName, "Công Ty TNHH");
-        name = StringUtils.removeIgnoreCase(name, "Cổ Phần Thương Mại Và Dịch Vụ");
-        name = StringUtils.removeIgnoreCase(name, "Cổ Phần");
-        name = StringUtils.removeIgnoreCase(name, "Công Ty");
-        name = StringUtils.removeIgnoreCase(name, "cty");
+        String name = StringUtils.removeIgnoreCase(rawCompanyName, "Thương Mại Và Dịch Vụ");
         name = StringUtils.removeEndIgnoreCase(name, "Việt Nam");
-        name = StringUtils.removeEndIgnoreCase(name, "VietNam").trim();
+        name = StringUtils.removeEndIgnoreCase(name, "VietNam");
 
-        name = StringUtils.removeStartIgnoreCase(name, "tm");
-        name = StringUtils.removeStartIgnoreCase(name, "Thương mại");
-        return new CompanyNameComponent(name.trim(), type);
+        name = stripStarts(name, "Công Ty", "cty", "Cổ Phần", "TNHH", "tm", "-", "–", "Sản Xuất", "Thương Mại", "Dịch Vụ", "?");
+
+        return new CompanyNameComponent(name, type);
     }
 
     private String getType(String rawCompanyName) {
@@ -29,5 +25,23 @@ public class CompanyNameParser {
             return "CP";
         }
         return null;
+    }
+
+    public static String stripStarts(String s, String... characters) {
+        if (StringUtils.isEmpty(s)) {
+            return null;
+        }
+        String result = s.trim();
+
+        while (true) {
+            int lenBefore = result.length();
+            for (String character : characters) {
+                result = StringUtils.removeStartIgnoreCase(result, character).trim();
+            }
+            if (result.length() == lenBefore) {
+                break;
+            }
+        }
+        return result;
     }
 }

@@ -22,7 +22,7 @@ public class SparkConfig {
         // Reference: https://spark.apache.org/docs/latest/configuration.html
         SparkConf conf = new SparkConf().setAppName(appName).setMaster(masterUri);
         conf.set("es.resource", "vnf/companies");
-        conf.set("es.nodes", "tnode.org");
+        conf.set("es.nodes", "192.168.1.117");
         conf.set("spark.es.net.ssl", "false");
         conf.set("es.nodes.wan.only", "true");
 

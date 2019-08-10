@@ -28,6 +28,8 @@ public class CompanyNameParserTest {
                 {"Công Ty Cổ Phần Thương Mại Và Dịch Vụ Cảng Cái Lân", "Cảng Cái Lân", "CP"},
                 {"Công Ty Cổ Phần Thủy Sản Khu Vực 1", "Thủy Sản Khu Vực 1", "CP"},
                 {"Công ty cổ phần kiến trúc gỗ cao bằng", "kiến trúc gỗ cao bằng", "CP"},
+                {"Công Ty TNHH Lotte Logistics Việt Nam", "Lotte Logistics", "TNHH"},
+                {"Công ty TNHH Sản Xuất – Thương Mại – Dịch Vụ V.T.T.N", "V.T.T.N", "TNHH"},
         };
     }
 
