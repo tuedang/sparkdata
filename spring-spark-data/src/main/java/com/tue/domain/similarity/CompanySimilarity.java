@@ -4,11 +4,14 @@ import com.tue.service.Company;
 import com.tue.spark.address.AddressComponent;
 import com.tue.spark.address.AddressParser;
 import com.tue.spark.address.AddressParserDelegator;
+import com.tue.spark.naming.CompanyNameParser;
+import org.apache.commons.lang3.StringUtils;
 
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 
 public class CompanySimilarity {
     private static final AddressParser addressParser = new AddressParserDelegator();
+    private static final CompanyNameParser COMPANY_NAME_PARSER = new CompanyNameParser();
     public static boolean isSimilar(Company rootCompany, Company referenceCompany) {
         double scoreAddress = StringSimilarity.isSimilarAddress(rootCompany.getAddress().getAddress(), referenceCompany.getAddress().getAddress());
         double scoreName = StringSimilarity.isSimilarAddress(rootCompany.getName(), referenceCompany.getName());
@@ -24,5 +27,10 @@ public class CompanySimilarity {
                     ;
         }
         return rawSelected;
+    }
+
+    public static boolean isSimilarByName(Company rootCompany, Company referenceCompany) {
+        return StringUtils.equalsIgnoreCase(COMPANY_NAME_PARSER.parse(rootCompany.getName()).getName(),
+                COMPANY_NAME_PARSER.parse(referenceCompany.getName()).getName());
     }
 }

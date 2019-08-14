@@ -74,6 +74,28 @@ public class ElasticsearchService {
         log.info(String.format("{\"count\": \"%s-%s => %s\"}", companyRdd.count(), companyRddVtown.count(), joined.count()));
     }
 
+    public void joinByName() {
+        QueryBuilder companyQuery = CompanyQuery.builder()
+                .withQuery("website", "*")
+                .withTermKeyword("address.province", "TP Hồ Chí Minh")
+                .build();
+        JavaRDD<Company> companyRdd = ElasticQueryHelper.queryForRDD(sc, "vnf/companies", companyQuery, Company.class);
+        JavaRDD<Company> companyRddVtown = ElasticQueryHelper.queryForRDD(sc, "vtown*/companies", CompanyQuery.builder()
+                .withQuery("website", "*")
+                .build(), Company.class);
+
+        JavaPairRDD<Company, Company> joined = companyRdd.cache().cartesian(companyRddVtown.cache())
+                .filter(tuple2 -> {
+                    boolean selected = CompanySimilarity.isSimilarByName(tuple2._1, tuple2._2);
+                    if (selected) {
+                        System.out.println(String.format("[%s==%s] <->\n [%s==%s]", tuple2._1.getName(), tuple2._1.getAddress().getAddress(),
+                                tuple2._2.getName(), tuple2._2.getAddress().getAddress()));
+                    }
+                    return selected;
+                });
+        log.info(String.format("{\"count\": \"%s-%s => %s\"}", companyRdd.count(), companyRddVtown.count(), joined.count()));
+    }
+
     public void addressVerification() {
         QueryBuilder companyQuery = CompanyQuery.builder()
                 .withQuery("website", "*")

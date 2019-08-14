@@ -26,6 +26,11 @@ public class ElasticsearchServiceApplicationTest {
     }
 
     @Test
+    public void joinByName() throws Exception {
+        elasticsearchService.joinByName();
+    }
+
+    @Test
     public void addressVerification() {
         elasticsearchService.addressVerification();
     }
