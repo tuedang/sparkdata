@@ -45,8 +45,8 @@ public class SparkConfig {
     }
 
     @Bean
-    public JavaSparkContext sc() {
-        return new JavaSparkContext(conf());
+    public JavaSparkContext sc(SparkConf sparkConf) {
+        return new JavaSparkContext(sparkConf);
     }
 
     @Bean
