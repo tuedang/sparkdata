@@ -3,6 +3,10 @@ package com.tue.spark.naming;
 import org.apache.commons.lang3.StringUtils;
 
 public class CompanyNameParser {
+    private static final String[] stopwordsCompany = {"&", "Và", "?", "-", "–",
+            "Công Ty", "cty", "Cổ Phần", "TNHH", "Trách Nhiệm Hữu Hạn",
+            "tm", "Sản Xuất", "Thương Mại", "Dịch Vụ",
+            "Một Thành Viên"};
     public CompanyNameComponent parse(String rawCompanyName) {
         if (StringUtils.isEmpty(rawCompanyName)) {
             return null;
@@ -12,7 +16,7 @@ public class CompanyNameParser {
         name = StringUtils.removeEndIgnoreCase(name, "Việt Nam");
         name = StringUtils.removeEndIgnoreCase(name, "VietNam");
 
-        name = stripStarts(name, "Công Ty", "cty", "Cổ Phần", "TNHH", "tm", "-", "–", "Sản Xuất", "Thương Mại", "Dịch Vụ", "?");
+        name = stripStarts(name, stopwordsCompany);
 
         return new CompanyNameComponent(name, type);
     }

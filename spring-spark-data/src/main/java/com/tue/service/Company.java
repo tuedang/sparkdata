@@ -25,7 +25,7 @@ public class Company implements Serializable {
     @Setter
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Address implements Serializable{
+    public static class Address implements Serializable {
         private String address;
         private String province;
         private String district;
