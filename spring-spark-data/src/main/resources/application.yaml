@@ -22,6 +22,9 @@ spring:
       client:
         url: http://localhost:${spring.server.port}
 
+elasticsearch:
+  host: 'http://192.168.1.117:9200'
+
 logging:
   level:
     root: INFO
