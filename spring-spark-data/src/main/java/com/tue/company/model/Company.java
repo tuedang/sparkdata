@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.ToString;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -12,7 +13,6 @@ import java.time.Instant;
 
 @Document(indexName = "vnf", type = "companies")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@ToString
 @Getter
 public class Company {
     @Id
@@ -45,4 +45,8 @@ public class Company {
 
     @JsonProperty("_log")
     private LogData logData;
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
 }
