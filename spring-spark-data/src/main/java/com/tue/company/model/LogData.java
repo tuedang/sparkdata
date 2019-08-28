@@ -11,4 +11,8 @@ public class LogData {
     private String geocoding;
     @JsonProperty("url_ref_thongtincongty")
     private String urlRefThongTinCongTy;
+
+    @JsonProperty("url_ref_yellowpages")
+    private String urlRefYellowPages;
+
 }

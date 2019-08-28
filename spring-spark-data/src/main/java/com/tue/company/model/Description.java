@@ -17,4 +17,18 @@ public class Description {
     @JsonProperty("number_of_employee")
     private Integer numberOfEmployee;
 
+    @JsonProperty("rating_text")
+    private String ratingText;
+
+    @JsonProperty("rating")
+    private Integer rating;
+
+    @JsonProperty("general_description")
+    private String generalDescription;
+
+    @JsonProperty("logo")
+    private String logo;
+
+    @JsonProperty("images")
+    private String[] images;
 }

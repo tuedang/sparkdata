@@ -18,7 +18,7 @@ public class SpringSparkWordCountApplication {
         SpringApplication.run(SpringSparkWordCountApplication.class, args);
     }
 
-    @Scheduled(initialDelay = 1000, fixedDelay = 5000)
+    @Scheduled(initialDelay = 10000000, fixedDelay = 5000)
     public void processText() {
         log.info("Execute by cron job {}", Instant.now());
     }

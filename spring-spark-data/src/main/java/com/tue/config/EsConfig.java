@@ -1,5 +1,6 @@
 package com.tue.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.DefaultEntityMapper;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.util.ReflectionUtils;
@@ -32,7 +34,12 @@ public class EsConfig {
     }
 
     @Bean
-    public ElasticsearchRestTemplate elasticsearchTemplate(@Autowired RestHighLevelClient client) {
+    public ElasticsearchRestTemplate elasticsearchTemplate(@Autowired RestHighLevelClient client, @Autowired EntityMapper entityMapper) {
+        return new ElasticsearchRestTemplate(client, entityMapper);
+    }
+
+    @Bean
+    public DefaultEntityMapper entityMapper() {
         DefaultEntityMapper entityMapper = new DefaultEntityMapper(new SimpleElasticsearchMappingContext());
 
         //hacking objectMapper
@@ -41,9 +48,9 @@ public class EsConfig {
         ObjectMapper objectMapper = (ObjectMapper)ReflectionUtils.getField(field, entityMapper);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         ReflectionUtils.setField(field, entityMapper, objectMapper);
-
-        return new ElasticsearchRestTemplate(client, entityMapper);
+        return entityMapper;
     }
 
 }
