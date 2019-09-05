@@ -1,69 +1,75 @@
 package com.tue.company.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class GeoDirectory {
-    @JsonProperty("post_id")
+    @Field(name = "post_id", type = FieldType.Text)
     private String postId;
-    @JsonProperty("guid")
+    @Field(name = "guid", type = FieldType.Text)
     private String guid;
 
-    @JsonProperty("post_date")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime postDate;
+    @Field(name = "post_date", type = FieldType.Date, store = true, format = DateFormat.date)
+    private Instant postDate;
 
-    @JsonProperty("error")
+    @Field(name = "error", type = FieldType.Integer)
     private Integer error;
 
-    @JsonProperty("data")
+    @Field(name = "data")
     private ErrorData errorData;
 
     public String toStringNonNull() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE, true, true, true, null);
     }
 
-}
+    @Data
+    @Builder @AllArgsConstructor @NoArgsConstructor
+    public static class ErrorData {
+        @Field(name = "vi", type = FieldType.Text)
+        private String vi;
 
-@Data
-class ErrorData {
-    @JsonProperty("vi")
-    private String vi;
+        @Field(name = "geodir_website", type = FieldType.Text)
+        private String geodirWebsite;
 
-    @JsonProperty("geodir_website")
-    private String geodirWebsite;
+        @Field(name = "geodir_tax_code", type = FieldType.Text)
+        private String geodirTaxCode;
 
-    @JsonProperty("geodir_tax_code")
-    private String geodirTaxCode;
+        @Field(name = "geodir_email1", type = FieldType.Text)
+        private String geodirEmail1;
+        @Field(name = "geodir_email2", type = FieldType.Text)
+        private String geodirEmail2;
+        @Field(name = "geodir_email3", type = FieldType.Text)
+        private String geodirEmail3;
 
-    @JsonProperty("geodir_email1")
-    private String geodirEmail1;
-    @JsonProperty("geodir_email2")
-    private String geodirEmail2;
-    @JsonProperty("geodir_email3")
-    private String geodirEmail3;
+        @Field(name = "geodir_contact 1", type = FieldType.Text)
+        private String geodirContact1;
+        @Field(name = "geodir_contact 2", type = FieldType.Text)
+        private String geodirContact2;
+        @Field(name = "geodir_contact 3", type = FieldType.Text)
+        private String geodirContact3;
+        @Field(name = "geodir_contact 4", type = FieldType.Text)
+        private String geodirContact4;
 
-    @JsonProperty("geodir_contact 1")
-    private String geodirContact1;
-    @JsonProperty("geodir_contact 2")
-    private String geodirContact2;
-    @JsonProperty("geodir_contact 3")
-    private String geodirContact3;
-    @JsonProperty("geodir_contact 4")
-    private String geodirContact4;
+        @Field(name = "post_longitude", type = FieldType.Text)
+        private String postLon;
+        @Field(name = "post_latitude", type = FieldType.Text)
+        private String postLat;
 
-    @JsonProperty("post_longitude")
-    private String postLon;
-    @JsonProperty("post_latitude")
-    private String postLat;
-
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE, true, true, true, null);
+        public String toString() {
+            return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE, true, true, true, null);
+        }
     }
 }
+
+

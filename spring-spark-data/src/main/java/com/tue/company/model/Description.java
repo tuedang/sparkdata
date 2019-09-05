@@ -1,34 +1,44 @@
 package com.tue.company.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.time.Instant;
+import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor @AllArgsConstructor
 public class Description {
-    @JsonProperty("business_registration")
+    @Field(name = "business_registration", type = FieldType.Text)
     private String businessRegistration;
 
-    @JsonProperty("business_registration_date")
-    private String businessRegistrationDate;
+    @Field(name = "business_registration_date", type = FieldType.Date, store = true, format = DateFormat.date)
+    private Instant businessRegistrationDate;
 
-    @JsonProperty("business_registration_place")
+    @Field(name = "business_registration_place", type = FieldType.Text)
     private String businessRegistrationPlace;
 
-    @JsonProperty("number_of_employee")
+    @Field(name = "number_of_employee", type = FieldType.Integer)
     private Integer numberOfEmployee;
 
-    @JsonProperty("rating_text")
+    @Field(name = "rating_text", type = FieldType.Text, store = true)
     private String ratingText;
 
-    @JsonProperty("rating")
+    @Field(name = "rating", type = FieldType.Integer)
     private Integer rating;
 
-    @JsonProperty("general_description")
+    @Field(name = "general_description", type = FieldType.Text, store = true)
     private String generalDescription;
 
-    @JsonProperty("logo")
+    @Field( name = "logo", type = FieldType.Text, store = true)
     private String logo;
 
-    @JsonProperty("images")
-    private String[] images;
+//    @Field( name = "images", type = FieldType.Object, store = true)
+//    private List<String> images;
 }

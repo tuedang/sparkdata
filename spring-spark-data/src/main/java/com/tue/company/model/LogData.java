@@ -1,18 +1,24 @@
 package com.tue.company.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
+@Builder
+@AllArgsConstructor @NoArgsConstructor
 public class LogData {
-    @JsonProperty("addr")
+    @Field(name = "addr", type = FieldType.Text)
     private String address;
-    @JsonProperty("geocoding")
+    @Field(name = "geocoding", type = FieldType.Text)
     private String geocoding;
-    @JsonProperty("url_ref_thongtincongty")
+    @Field(name = "url_ref_thongtincongty", type = FieldType.Text)
     private String urlRefThongTinCongTy;
 
-    @JsonProperty("url_ref_yellowpages")
+    @Field(name = "url_ref_yellowpages", type = FieldType.Text)
     private String urlRefYellowPages;
 
 }
