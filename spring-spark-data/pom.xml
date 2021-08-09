@@ -20,7 +20,7 @@
         <spark.version>2.4.3</spark.version>
         <scala.spark.version>2.11</scala.spark.version>
         <scala.version>2.11.12</scala.version>
-        <elasticsearch.version>6.8.2</elasticsearch.version>
+        <elasticsearch.version>6.8.17</elasticsearch.version>
         <spring.data.elasticsearch.version>3.2.0.RC2</spring.data.elasticsearch.version>
         <elasticsearch.spark.version>7.3.1</elasticsearch.spark.version>
         <springboot.admin.version>2.1.6</springboot.admin.version>
